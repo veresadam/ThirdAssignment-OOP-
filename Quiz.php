@@ -10,7 +10,7 @@ class Quiz
     public function __construct($quizName, $pdo)
     {
         try {
-            $stmt = $pdo->query("SELECT id FROM quiz WHERE quiz_name =" . $pdo->quote($quizName));
+            $stmt = $pdo->query("SELECT id FROM quiz WHERE name = {$pdo->quote($quizName)}");
             $this->id = $stmt->fetch();
             $this->title = $quizName;
             $this->setQuestions($pdo);
@@ -30,9 +30,9 @@ class Quiz
 
     public function setQuestions($pdo)
     {
-        $stmt = $pdo->query("SELECT (question_text, question_answer) FROM question WHERE quiz_id =" . $pdo->quote($this->id));
+        $stmt = $pdo->query("SELECT * FROM question WHERE quiz_id ={$pdo->quote($this->id['id'])}");
         while ($row = $stmt->fetch()) {
-            $this->questions[] = new Question($row['question_text'], $row['question_answer']);
+            $this->questions[] = new Question($row['question'], $row['answer']);
         }
     }
 
@@ -46,7 +46,7 @@ class Quiz
         $this->score = 0;
         $userAnswers = $user->getQuizAnswers();
         for ($i = 0; $i < count($this->questions); $i++) {
-            if ($userAnswers[$i] === $this->questions[$i]->answer) {
+            if ($userAnswers[$i] === $this->questions[$i]->getAnswer()) {
                 $this->score++;
             }
         }

@@ -11,6 +11,7 @@ function mainFunction() {
 
     $connection = new Database();
     $pdo = $connection->getConnection();
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
     echo "Greetings to the quiz machine! Please enter your E-mail: ";
     $mail = fgets(STDIN);
     $user = new User($mail, $pdo);

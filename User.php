@@ -10,9 +10,7 @@ class User
      */
     public function __construct($mail, $pdo)
     {
-        $sql = "INSERT INTO users (email) VALUES (?)";
-        $stmt= $pdo->prepare($sql);
-        $stmt->execute($mail);
+        $pdo->exec("INSERT INTO user (`email`) VALUES ({$pdo->quote($mail)})");
         $this->email = $mail;
     }
 

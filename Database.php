@@ -3,7 +3,7 @@
 class Database
 {
     private $connection;
-    private $dsn = 'mysql:dbname=QuizAssignment;host=127.0.0.1';
+    private $dsn = 'mysql:dbname=QuizAssignment';
     private $user = 'adamveres';
     private $password = '';
 
